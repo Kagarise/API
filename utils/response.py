@@ -1,7 +1,7 @@
 import json
 
 
-class Response:
+class Res:
     @staticmethod
     def success(data, msg=""):
         return json.dumps({

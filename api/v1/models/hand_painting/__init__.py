@@ -1,5 +1,7 @@
 import os
 from io import BytesIO
+from time import time
+
 import requests
 from PIL import Image
 import numpy as np
@@ -33,7 +35,7 @@ def get_hand_painting(url):
     b = 255 * (dx * uni_x + dy * uni_y + dz * uni_z)  # 光源归一化
     b = b.clip(0, 255)
     im = Image.fromarray(b.astype('uint8'))  # 重构图像
-    file_path = f'source/hand_painting{url[url.rfind("/"):]}'
+    file_path = f'source/hand_painting/{int(time())}.jpg'
     im.save(file_path)
     upload_local_file(bucket_name=cos_config['BucketName'], local_file_path=file_path, file_path=file_path)
     if os.path.exists(file_path):  # 如果文件存在
