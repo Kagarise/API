@@ -7,9 +7,11 @@ from PIL import Image
 import numpy as np
 
 from utils.cos import cos_config, upload_local_file
+from utils.logger import logger
 
 
 def get_hand_painting(url):
+    logger.success(f'start handle url:{url}')
     img = requests.get(url)
     img = BytesIO(img.content)
     a = np.asarray(
@@ -38,8 +40,8 @@ def get_hand_painting(url):
     file_path = f'source/hand_painting/{int(time())}.jpg'
     im.save(file_path)
     upload_local_file(bucket_name=cos_config['BucketName'], local_file_path=file_path, file_path=file_path)
-    if os.path.exists(file_path):  # 如果文件存在
-        # 删除文件，可使用以下两种方法。
+    if os.path.exists(file_path):
         os.remove(file_path)
     img_url = f'{cos_config["Prefix"]}{file_path}'
+    logger.success(f'finish handle url:{url}\n img_url is {img_url}')
     return img_url

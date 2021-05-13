@@ -20,6 +20,6 @@ class Res:
     @staticmethod
     def forbidden():
         return json.dumps({
-            'code': 403,
+            'code': 401,
             'msg': "需要认证"
         })
