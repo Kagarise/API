@@ -3,7 +3,6 @@ from time import time
 
 import requests
 
-from config import baidu_config
 from utils.cos import cos_config, upload_local_file
 from utils.logger import logger
 
