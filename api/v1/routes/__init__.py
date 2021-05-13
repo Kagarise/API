@@ -28,7 +28,7 @@ def hand_aip():
         return Res.error(400, 'Args error!')
     per = request.json.get('per')
     if per is None:
-        per = 103
+        per = 5118
     try:
         url = get_aip(API_KEY=API_KEY, SECRET_KEY=SECRET_KEY, tex=tex, per=per)
         if url is None:
