@@ -6,6 +6,8 @@ from utils.logger import logger
 
 
 def get_yourls(url):
+    if not url.startswith('http://') and not url.startswith('https://'):
+        url = "http://" + url
     api = "http://yourls.flora.love/yourls-api.php"
     timestamp = str(int(time.time()))
     signature = "755abd5c4d"

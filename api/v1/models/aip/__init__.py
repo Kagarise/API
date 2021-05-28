@@ -50,8 +50,8 @@ def get_aip(API_KEY, SECRET_KEY, tex, cuid='kagarise', ctp=1, lan='zh', spd=5, p
         upload_local_file(bucket_name=cos_config['BucketName'], local_file_path=file_path, file_path=file_path)
         if os.path.exists(file_path):
             os.remove(file_path)
-        logger.success("请求aip成功")
+        logger.success(f"请求aip:{tex}成功")
         return f'{cos_config["Prefix"]}{file_path}'
     else:
-        logger.error("请求aip失败")
+        logger.error(f"请求aip:{tex}失败")
         return None

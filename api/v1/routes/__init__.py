@@ -51,3 +51,14 @@ def yourls():
         'url': get_yourls(url=url)
     }
     return Res.success(data=data)
+
+
+@api.route('/qr', methods=['post'])
+def qr():
+    tex = request.json.get('tex')
+    if tex is None:
+        return Res.error(400, 'Args error!')
+    data = {
+        'tex': get_qr(tex=tex)
+    }
+    return Res.success(data=data)
