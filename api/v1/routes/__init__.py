@@ -40,3 +40,14 @@ def hand_aip():
             return Res.success(data=data)
     except:
         return Res.error(403, "请求aip错误")
+
+
+@api.route('/yourls', methods=['post'])
+def yourls():
+    url = request.json.get('url')
+    if url is None:
+        return Res.error(400, 'Args error!')
+    data = {
+        'url': get_yourls(url=url)
+    }
+    return Res.success(data=data)
