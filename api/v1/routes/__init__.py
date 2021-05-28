@@ -59,6 +59,6 @@ def qr():
     if tex is None:
         return Res.error(400, 'Args error!')
     data = {
-        'tex': get_qr(tex=tex)
+        'url': get_qr(tex=tex)
     }
     return Res.success(data=data)
