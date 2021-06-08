@@ -80,10 +80,24 @@ def qr():
 @api.route('/rontgen_code', methods=['post'])
 def rontgen_code():
     tex = request.json.get('tex')
-    typ = request.json.get('type')
-    if tex is None or typ is None:
+    if tex is None:
         return Res.error(400, 'Args error!')
-    url = get_rontgen_code(tex=tex, typ=typ)
+    num = request.json.get('num')
+    if num is None:
+        num = 1
+    else:
+        try:
+            if int(num) <= 0:
+                return Res.error(400, 'num必须大于0')
+        except:
+            return Res.error(400, 'num必须为整数')
+    typ = request.json.get('typ')
+    if typ is None:
+        typ = 'forever'
+    elif typ not in ['times', 'minute', 'hour', 'day', 'forever']:
+        return Res.error(400, 'typ不合规范')
+    pwd = request.json.get('pwd')
+    url = get_rontgen_code(tex=tex, num=num, typ=typ, pwd=pwd)
     if url is None:
         return Res.error(500, "url为None")
     else:

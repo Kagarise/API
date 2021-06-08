@@ -17,7 +17,7 @@ def id_is_exist(id):
 #   use_times: int,
 # }
 
-def get_rontgen_code(tex, typ):
+def get_rontgen_code(tex, num, typ, pwd):
     id_length = 6
     id = create_id(id_length)
     try:
@@ -28,7 +28,9 @@ def get_rontgen_code(tex, typ):
     logger.success(f"生成id<{id}>")
     data = {
         'tex': tex,
+        'num': num,
         'typ': typ,
+        'pwd': '' if pwd is None else pwd,
         'create_time': int(time()),
         'use_times': 0
     }
@@ -48,9 +50,13 @@ def data_is_disable(id, data):
     except:
         return True
     logger.success(f"<{id}>更新数据成功")
-    if data['typ'] == 'once' and int(data['use_times']) > 0:
+    if data['typ'] == 'times' and int(data['use_times']) > 0:
         return True
-    elif data['typ'] == 'hour' and int(time()) - int(data['create_time']) > 3600:
+    elif data['typ'] == 'minute' and int(time()) - int(data['create_time']) > 60 * int(data['num']):
+        return True
+    elif data['typ'] == 'hour' and int(time()) - int(data['create_time']) > 3600 * int(data['num']):
+        return True
+    elif data['typ'] == 'day' and int(time()) - int(data['create_time']) > 86400 * int(data['num']):
         return True
     else:
         return False
@@ -71,5 +77,5 @@ def get_rontgen_data(id):
 
 
 if __name__ == "__main__":
-    id = get_rontgen_code("你好", "once")
+    id = get_rontgen_code("你好", 1, "times", pwd=None)
     print(get_rontgen_data(id))
