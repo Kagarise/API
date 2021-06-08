@@ -8,7 +8,7 @@ from utils.logger import logger
 def get_yourls(url):
     if not url.startswith('http://') and not url.startswith('https://'):
         url = "http://" + url
-    api = "http://yourls.flora.love/yourls-api.php"
+    api = "http://yourls.zzuli.love/yourls-api.php"
     timestamp = str(int(time.time()))
     signature = "755abd5c4d"
     signature = hashlib.md5((timestamp + signature).encode('utf8')).hexdigest()

@@ -2,6 +2,7 @@ from flask import Blueprint, request
 
 from utils.response import Res
 from ..models import *
+from ..models.rontgen import get_rontgen_data
 
 api = Blueprint('api_v1', __name__)
 
@@ -11,10 +12,14 @@ def hand_painting():
     url = request.json.get('url')
     if url is None:
         return Res.error(400, 'Args error!')
-    data = {
-        'url': get_hand_painting(url=url)
-    }
-    return Res.success(data=data)
+    url = get_hand_painting(url=url)
+    if url is None:
+        return Res.error(500, "url为None")
+    else:
+        data = {
+            'url': url
+        }
+        return Res.success(data=data)
 
 
 @api.route('/aip', methods=['post'])
@@ -32,7 +37,7 @@ def hand_aip():
     try:
         url = get_aip(API_KEY=API_KEY, SECRET_KEY=SECRET_KEY, tex=tex, per=per)
         if url is None:
-            return Res.error(403, 'url为None')
+            return Res.error(500, 'url为None')
         else:
             data = {
                 'url': url
@@ -47,10 +52,14 @@ def yourls():
     url = request.json.get('url')
     if url is None:
         return Res.error(400, 'Args error!')
-    data = {
-        'url': get_yourls(url=url)
-    }
-    return Res.success(data=data)
+    url = get_yourls(url=url)
+    if url is None:
+        return Res.error(500, "url为None")
+    else:
+        data = {
+            'url': url
+        }
+        return Res.success(data=data)
 
 
 @api.route('/qr', methods=['post'])
@@ -58,7 +67,39 @@ def qr():
     tex = request.json.get('tex')
     if tex is None:
         return Res.error(400, 'Args error!')
-    data = {
-        'url': get_qr(tex=tex)
-    }
-    return Res.success(data=data)
+    url = get_qr(tex=tex)
+    if url is None:
+        return Res.error(500, "url为None")
+    else:
+        data = {
+            'url': url
+        }
+        return Res.success(data=data)
+
+
+@api.route('/rontgen_code', methods=['post'])
+def rontgen_code():
+    tex = request.json.get('tex')
+    typ = request.json.get('type')
+    if tex is None or typ is None:
+        return Res.error(400, 'Args error!')
+    url = get_rontgen_code(tex=tex, typ=typ)
+    if url is None:
+        return Res.error(500, "url为None")
+    else:
+        data = {
+            'url': url
+        }
+        return Res.success(data=data)
+
+
+@api.route('/rontgen_data', methods=['post'])
+def rontgen_data():
+    id = request.json.get('id')
+    if id is None:
+        return Res.error(400, 'Args error!')
+    data = get_rontgen_data(id=id)
+    if data is None:
+        return Res.error(500, "data为None")
+    else:
+        return Res.success(data=data)
